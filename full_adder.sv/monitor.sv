@@ -8,7 +8,8 @@ class monitor;
   endfunction
   task run();
     repeat(8)begin
-    #3;
+      @(negedge vif.clk);
+    #1;
     tr=new();
     tr.a=vif.a;
      tr.b=vif.b;
@@ -16,6 +17,7 @@ class monitor;
      tr.sum=vif.sum;
      tr.carry=vif.carry;
     mon2scr.put(tr);
+       $display("[MON] a=%0b b=%0b c=%0b sum=%0b carry=%0b",tr.a,tr.b,tr.c,tr.sum,tr.carry);
     end
   endtask
 endclass
