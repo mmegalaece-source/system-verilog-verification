@@ -9,7 +9,7 @@ class monitor;
   endfunction
 
   task run();
-    repeat(5) begin
+    repeat(10) begin
       @(posedge vif.clk);
       #1;
 
