@@ -17,7 +17,11 @@ module tb;
     .count(vif.count)
   );
 
-  initial vif.clk = 0;
+  initial begin
+    vif.clk = 0;
+    vif.rst = 1;
+  end
+
   always #5 vif.clk = ~vif.clk;
 
   initial begin
