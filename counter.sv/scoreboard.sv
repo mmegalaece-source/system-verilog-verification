@@ -8,10 +8,10 @@ class scoreboard;
   endfunction
   
   task run();
-    repeat(5)begin
+    repeat(10)begin
       mon2scr.get(tr);
-      if(tr.rst)
-        exp_count=0;
+      if(tr.rst==1'b1)
+        exp_count=4'b000;
       else
         exp_count=exp_count+1'b1;
       
