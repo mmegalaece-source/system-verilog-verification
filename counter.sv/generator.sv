@@ -7,7 +7,7 @@ class generator;
   endfunction
   
   task run();
-    repeat(5)begin 
+    repeat(10)begin 
       tr=new();
       tr.randomize();
       gen2drv.put(tr);
