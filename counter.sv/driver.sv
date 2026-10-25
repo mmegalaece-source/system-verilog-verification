@@ -9,7 +9,7 @@ class driver;
   endfunction
 
   task run();
-    repeat(5) begin
+    repeat(10) begin
       gen2drv.get(tr);
       @(negedge vif.clk);
       vif.rst = tr.rst;
