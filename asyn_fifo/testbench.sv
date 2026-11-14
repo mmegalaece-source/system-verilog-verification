@@ -9,8 +9,10 @@
 `include "environment.sv"
 
 module testbench;
+
     asyn_fifo vif();
     environment env;
+
     async_fifo #(
         .data_width(8),
         .addr_width(3)
@@ -25,20 +27,28 @@ module testbench;
         .full(vif.full),
         .empty(vif.empty)
     );
+
+    // WRITE CLOCK
     initial begin
         vif.wr_clk = 0;
         forever #5 vif.wr_clk = ~vif.wr_clk;
     end
+
+    // READ CLOCK
     initial begin
         vif.rd_clk = 0;
         forever #7 vif.rd_clk = ~vif.rd_clk;
     end
+
+    // RESET AND TEST
     initial begin
+
         vif.rst_n = 0;
         vif.wr_en = 0;
         vif.rd_en = 0;
         vif.wr_data = 0;
-        repeat (3) @(negedge vif.wr_clk);
+
+        repeat(3) @(negedge vif.wr_clk);
         vif.rst_n = 1;
         $display("--------------------------------");
         $display("RESET RELEASED");
@@ -47,7 +57,10 @@ module testbench;
         $display("--------------------------------");
         env = new(vif);
         env.run();
-        #20;
+        repeat(5) @(posedge vif.rd_clk);
+        $display("--------------------------------");
+        $display("FIFO TEST COMPLETED");
+        $display("--------------------------------");
         $finish;
     end
     initial begin
@@ -56,6 +69,6 @@ module testbench;
     end
     initial begin
         #5000;
-        $fatal(1, "ERROR: Simulation timeout");
+        $fatal(1, "ERROR: Simulation timeout - env.run() did not complete");
     end
 endmodule
