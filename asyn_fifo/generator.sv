@@ -1,13 +1,12 @@
 class generator;
-  mailbox gen2drv;   //Sends transactions to the Driver.
-  mailbox gen2scr;   //Sends expected write data to the Scoreboard.
-    function new(
-        mailbox gen2drv,
-        mailbox gen2scr
-    );
+  mailbox gen2drv;   
+  mailbox gen2scr;
+  
+  function new(mailbox gen2drv,mailbox gen2scr);
         this.gen2drv = gen2drv;
         this.gen2scr = gen2scr;
     endfunction
+  
     task run();
         transaction tr;
       //write transaction
@@ -27,7 +26,6 @@ class generator;
             tr.rd_en = 1;
             tr.wr_data = 0;
             gen2drv.put(tr);
-            $display("[GENERATOR] READ REQUEST");
         end
     endtask
 endclass
